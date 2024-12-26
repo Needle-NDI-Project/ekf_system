@@ -1,0 +1,91 @@
+/**:
+    ros__parameters:
+        # General Parameters
+        publish_rate: 50.0 # Hz
+        world_frame_id: 'world'
+        use_sim_time: false
+
+        # EKF Parameters
+        ekf:
+            # Initial State
+            initial_state:
+                position: [0.0, 0.0, 0.0] # x, y, z in meters
+                orientation: [1.0, 0.0, 0.0, 0.0] # quaternion (w, x, y, z)
+                velocity: [0.0, 0.0, 0.0] # vx, vy, vz in m/s
+                angular_velocity: [0.0, 0.0, 0.0] # wx, wy, wz in rad/s
+
+            # Covariance Settings
+            process_noise:
+                position: 0.01 # m^2
+                orientation: 0.01 # rad^2
+                velocity: 0.1 # (m/s)^2
+                angular_velocity: 0.1 # (rad/s)^2
+
+            measurement_noise:
+                position: 0.001 # m^2
+                orientation: 0.001 # rad^2
+
+            initial_covariance:
+                position: 0.1 # m^2
+                orientation: 0.1 # rad^2
+                velocity: 1.0 # (m/s)^2
+                angular_velocity: 1.0 # (rad/s)^2
+
+        # Data Validation Parameters
+        validation:
+            max_position: 10.0 # meters
+            max_velocity: 2.0 # m/s
+            max_quaternion_norm_error: 0.01 # Maximum deviation from unit quaternion
+
+        # Logging and Diagnostics
+        logging:
+            level: info # Options: debug, info, warn, error, fatal
+            file_output:
+                enabled: true
+                directory: '$(env HOME)/ekf_system_logs'
+                filename_prefix: 'ekf_system'
+                max_files: 5
+                max_file_size_mb: 10
+            console_output:
+                enabled: true
+                show_file_line: true
+                colorized: true
+
+        # Performance Monitoring
+        diagnostics:
+            enabled: true
+            log_interval_ms: 1000
+            metrics:
+                processing_time: true
+                update_frequency: true
+                state_covariance: true
+                innovation_magnitude: true
+
+        # Topic Configuration
+        topics:
+            subscribers:
+                ndi_tracker:
+                    topic: '/ndi_tracker/state'
+                    queue_size: 10
+                    max_frequency: 100.0 # Hz
+                    min_frequency: 1.0 # Hz
+                cmd_vel:
+                    topic: '/cmd_vel'
+                    queue_size: 10
+                needle_trajectory:
+                    topic: '/needle_planning/trajectory'
+                    queue_size: 10
+                motor_commands:
+                    topic: '/zaber_system/motor_commands'
+                    queue_size: 10
+
+            publishers:
+                state_estimate:
+                    topic: '/ekf_state_estimate'
+                    queue_size: 10
+                    publish_rate: 50.0 # Hz
+
+        # Service Configuration
+        services:
+            reset_filter: '/ekf_system/reset_filter'
+            get_filter_state: '/ekf_system/get_filter_state'

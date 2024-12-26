@@ -1,4 +1,6 @@
-# **EKF System Package**
+# EKF System Package
+
+[![ROS2 Humble](https://img.shields.io/badge/ROS2-Humble-green)](https://docs.ros.org/en/humble/)
 
 ## Table of Contents
 
@@ -157,7 +159,7 @@ rosdep install --from-paths src --ignore-src -r -y
    ```bash
    mkdir -p ~/ros2_ws/src
    cd ~/ros2_ws/src
-   git clone https://github.com/your-org/ekf_system.git
+   git clone https://github.com/Needle-NDI-Project/ekf_system.git
    ```
 
 2. **Install Dependencies**

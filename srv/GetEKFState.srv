@@ -1,0 +1,6 @@
+# Request
+---
+# Response
+geometry_msgs/PoseWithCovariance pose
+geometry_msgs/TwistWithCovariance twist
+float64[] state_covariance  # Full state covariance matrix (flattened)
